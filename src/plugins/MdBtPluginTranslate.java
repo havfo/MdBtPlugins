@@ -12,6 +12,7 @@ public class MdBtPluginTranslate extends MdBtPlugin {
 	WebDriver driver = new FirefoxDriver();
 	WebElement query;
 	WebElement resultsSpan;
+	String lastTranslation = "";
 
 	public MdBtPluginTranslate() {
 		setTriggerRegex("translate:(\\s).*");
@@ -36,7 +37,7 @@ public class MdBtPluginTranslate extends MdBtPlugin {
 		while (time < timeout) {
 			translation = resultsSpan.getText();
 			
-			if (!translation.isEmpty()) {
+			if (!translation.isEmpty() && !translation.equals(lastTranslation)) {
 				break;
 			}
 			
@@ -47,6 +48,8 @@ public class MdBtPluginTranslate extends MdBtPlugin {
 				e.printStackTrace();
 			}
 		}
+		
+		lastTranslation = translation;
 
 		return translation;
 	}
